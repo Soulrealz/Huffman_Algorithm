@@ -1,6 +1,7 @@
 #pragma once
 #include "Pair.h"
 #include <vector>
+#include <string>
 
 class Table
 {
@@ -18,7 +19,15 @@ public:
 		return *this;
 	}
 
+	void fillTable()
+	{
+		for (std::size_t index = 0; index < ASCII; ++index)
+		{
+			container[index].symbol = (char)index;
+			container[index].numberOfOccurances = 0;
+		}
+	}
 private:
 	std::vector<Pair> container;
-	const std::size_t ASCII = 256;
+	const std::size_t ASCII = 127;
 };
