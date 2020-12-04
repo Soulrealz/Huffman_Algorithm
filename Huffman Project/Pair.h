@@ -6,7 +6,9 @@ struct Pair
 	char symbol;
 	int numberOfOccurances;
 
-	Pair(char _symbol, int _number) : symbol(_symbol), numberOfOccurances(_number) {}
+
+
+	Pair(char _symbol = '!', int _number = -1) : symbol(_symbol), numberOfOccurances(_number) {}
 	Pair(const Pair& other) : symbol(other.symbol), numberOfOccurances(other.numberOfOccurances) {}
 
 	Pair& operator=(const Pair& other) 

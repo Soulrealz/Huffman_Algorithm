@@ -9,25 +9,11 @@ public:
 	Table() : container(ASCII) {}
 	Table(const Table& other) : container(other.container) {}
 
-	Table& operator=(const Table& other)
-	{
-		if (this != &other)
-		{
-			container = other.container;
-		}
+	Table& operator=(const Table& other);
 
-		return *this;
-	}
-
-	void fillTable()
-	{
-		for (std::size_t index = 0; index < ASCII; ++index)
-		{
-			container[index].symbol = (char)index;
-			container[index].numberOfOccurances = 0;
-		}
-	}
+	void fillTable();
 private:
 	std::vector<Pair> container;
+	// Supporting only standard ASCII
 	const std::size_t ASCII = 127;
 };
