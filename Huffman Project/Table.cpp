@@ -19,8 +19,7 @@ void Table::fillTable()
 {
 	for (std::size_t index = 0; index < ASCII; ++index)
 	{
-		container[index].symbol = (char)index;
-		container[index].numberOfOccurances = 0;
+		container.emplace_back((char)index, 0);
 	}
 }
 
