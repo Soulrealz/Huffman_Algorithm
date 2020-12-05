@@ -10,6 +10,7 @@ public:
 	Table(const Table& other) : container(other.container) {}
 
 	Table& operator=(const Table& other);
+	Pair& operator[](const int& index);
 
 	void fillTable();
 	void removeZeroes();

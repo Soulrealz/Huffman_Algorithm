@@ -10,6 +10,11 @@ Table& Table::operator=(const Table& other)
 	return *this;
 }
 
+Pair& Table::operator[](const int & index)
+{
+	return container[index];
+}
+
 void Table::fillTable()
 {
 	for (std::size_t index = 0; index < ASCII; ++index)
