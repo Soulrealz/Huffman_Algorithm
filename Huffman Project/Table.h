@@ -12,6 +12,7 @@ public:
 	Table& operator=(const Table& other);
 
 	void fillTable();
+	void removeZeroes();
 private:
 	std::vector<Pair> container;
 	// Supporting only standard ASCII
