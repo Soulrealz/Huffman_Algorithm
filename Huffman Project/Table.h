@@ -6,7 +6,7 @@
 class Table
 {
 public:
-	Table() : container(ASCII) {}
+	Table() : container(ASCII) { fillTable(); }
 	Table(const Table& other) : container(other.container) {}
 
 	Table& operator=(const Table& other);

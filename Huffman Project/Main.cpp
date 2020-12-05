@@ -3,23 +3,30 @@
 // Pair.h = iostream
 #include "Table.h"
 
-void countChars(std::string& source)
+class Huffman
 {
-	// Creating table and filling it with zeroes up to the 126th ascii inclusive
-	Table table;
-	table.fillTable();
+public:
 	
-	// Counting each occuring character
-	std::size_t size = source.length();
-	for (std::size_t index = 0; index < size; ++index)
+	static void fillTableWithCharacters(std::string& source)
 	{
-		table[(int)source[index]].numberOfOccurances++;
+		// Counting each occuring character
+		std::size_t size = source.length();
+		for (std::size_t index = 0; index < size; ++index)
+		{
+			table[(int)source[index]].numberOfOccurances++;
+		}
+
+		// Removing each character with an appearance time equaling 0
+		table.removeZeroes();
 	}
+private:
+	 static Table table;
 
-	// Removing each character with an appearance time equaling 0
-	table.removeZeroes();
-}
-
+	 Huffman() = default;
+	 Huffman(const Huffman& other) = delete;
+	 Huffman& operator=(const Huffman& other) = delete;
+};
+Table Huffman::table;
 
 int main(int argc, char* argv[])
 {
@@ -43,12 +50,14 @@ int main(int argc, char* argv[])
 	case '1':
 	{
 		std::string str = "";
-		std::cout << "Enter text to compress:";
+		std::cout << "Enter text to compress: ";
 		std::cin >> str;
-		countChars(str);
+
+		Huffman::fillTableWithCharacters(str);
 	}	
 	break;		
 	case '2':
+
 		break;
 	case '3':
 		break;
