@@ -26,8 +26,5 @@ struct Pair
 		return out;
 	}
 
-	bool operator>(const Pair& other)
-	{
-		return numberOfOccurances > other.numberOfOccurances;
-	}
+	bool operator>(const Pair& other) { return numberOfOccurances > other.numberOfOccurances; }
 };
