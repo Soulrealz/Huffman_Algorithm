@@ -10,11 +10,6 @@ Table& Table::operator=(const Table& other)
 	return *this;
 }
 
-Pair& Table::operator[](const int & index)
-{
-	return container[index];
-}
-
 void Table::fillTable()
 {
 	for (std::size_t index = 0; index < ASCII; ++index)
@@ -53,7 +48,7 @@ void Table::print() const
 	std::size_t size = container.size();
 	for (std::size_t i = 0; i < size; i++)
 	{
-		std::cout << container[i].symbol << " " << container[i].numberOfOccurances << "\n";
+		std::cout << container[i];
 	}
 }
 
