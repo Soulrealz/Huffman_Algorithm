@@ -1,7 +1,10 @@
 // includes :
-// Table.h = Pair.h, string, vector
+// Table.h = Pair.h, string, vector, algorithm
 // Pair.h = iostream
+// MinHeap.h = vector, Node.h
+// Node.h = Pair.h
 #include "Table.h"
+#include "MinHeap.h"
 
 class Huffman
 {
@@ -14,25 +17,43 @@ public:
 		for (std::size_t index = 0; index < size; ++index)
 		{
 			table[(int)source[index]].numberOfOccurances++;
-		}
-
+		}		
+	}
+	static void arrangeElements()
+	{
 		// Removing each character with an appearance time equaling 0
 		table.removeZeroes();
+		// Sort by number of occurances
+		table.sort();
 	}
 
-	static void print()
+	static void fillHeap()
 	{
-		table.sort();
+		std::size_t size = table.size();
+		for (std::size_t i = 0; i < size; i++)
+		{
+			heap.push(Node(table[i], nullptr, nullptr));
+		}
+	}
+
+	static void printTable()
+	{		
 		table.print();
+	}
+	static void printHeap()
+	{
+		heap.print();
 	}
 private:
 	 static Table table;
+	 static MinHeap heap;
 
 	 Huffman() = default;
 	 Huffman(const Huffman& other) = delete;
 	 Huffman& operator=(const Huffman& other) = delete;
 };
 Table Huffman::table;
+MinHeap Huffman::heap;
 
 int main(int argc, char* argv[])
 {
@@ -70,8 +91,12 @@ int main(int argc, char* argv[])
 	default: std::cout << "Exiting...";
 		break;
 	}
-	
-	Huffman::print();
+		
+	Huffman::arrangeElements();
+	Huffman::printTable();
+	std::cout << "\n\n\n";
+	Huffman::fillHeap();
+	Huffman::printHeap();
 
 	return 0;
 }
