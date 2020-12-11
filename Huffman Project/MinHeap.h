@@ -1,26 +1,28 @@
 #pragma once
 #include <vector>
+#include "Node.h"
 
-template <typename T>
 class MinHeap
 {
 public:
 	MinHeap() = default;
-	MinHeap(const T* vect, const std::size_t& size);
-	MinHeap(const std::vector<T>& other) : heapVector(other) { heapify(); }
+	MinHeap(const std::vector<Node>& other) : heapVector(other) { heapify(); }
 
-	T top() const;
+	Node top() const;
 	void pop();
-	void push(const T& element);
+	void push(const Node& element);
+
 	std::size_t getSize() const { return heapVector.size(); }
+	bool compare(Node& lhs, Node& rhs) { return lhs.data > rhs.data; }
+	void print() const;
 
-	bool compare(T& lhs, T& rhs) { return lhs > rhs; }
+	Node& operator[](int index) { return heapVector[index]; }
 private:
-	std::vector<T> heapVector;
+	std::vector<Node> heapVector;
 
-	void heapDown(const int& index);
-	void heapUp(const int& index);
+	void heapDown(const std::size_t& index);
+	void heapUp(const std::size_t& index);
 	void heapify();
 
-	void swap(T& lhs, T& rhs);
+	void swap(Node& lhs, Node& rhs);
 };

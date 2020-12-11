@@ -1,19 +1,6 @@
 #include "MinHeap.h"
 
-template <typename T>
-MinHeap<T>::MinHeap(const T* vect, const std::size_t& size)
-{
-	heapVector.reserve(size);
-	for (std::size_t index = 0; index < size; ++index)
-	{
-		heapVector.emplace_back(vect[index]);
-	}
-
-	heapify();
-}
-
-template <typename T>
-T MinHeap<T>::top() const
+Node MinHeap::top() const
 {
 	if (heapVector.empty())
 		throw std::out_of_range("MinHeap.h - top() - Empty heap, cannot access element.");
@@ -21,8 +8,7 @@ T MinHeap<T>::top() const
 	return heapVector[0];
 }
 
-template <typename T>
-void MinHeap<T>::pop()
+void MinHeap::pop()
 {
 	if (heapVector.empty())
 		throw std::out_of_range("MinHeap.h - pop() - Empty heap, nothing to pop.");
@@ -31,17 +17,23 @@ void MinHeap<T>::pop()
 	heapVector.pop_back();
 	heapDown(0);
 }
-
-template <typename T>
-void MinHeap<T>::push(const T& element)
+void MinHeap::push(const Node& element)
 {
 	std::size_t size = heapVector.size();
 	heapVector.emplace_back(element);
 	heapUp(size);
 }
 
-template <typename T>
-void MinHeap<T>::heapDown(const int& index)
+void MinHeap::print() const
+{
+	std::size_t size = heapVector.size();
+	for (std::size_t i = 0; i < size; i++)
+	{
+		std::cout << heapVector[i];
+	}
+}
+
+void MinHeap::heapDown(const std::size_t& index)
 {
 	std::size_t size = heapVector.size();
 	std::size_t leftChild = 2 * index + 1;
@@ -51,7 +43,7 @@ void MinHeap<T>::heapDown(const int& index)
 	if (leftChild >= size)
 		return;
 
-	int minIndex = index;
+	std::size_t minIndex = index;
 	if (compare(heapVector[minIndex], heapVector[leftChild]))
 		minIndex = leftChild;
 
@@ -64,8 +56,7 @@ void MinHeap<T>::heapDown(const int& index)
 		heapDown(minIndex);
 	}
 }
-template <typename T>
-void MinHeap<T>::heapUp(const int& index)
+void MinHeap::heapUp(const std::size_t& index)
 {
 	if (index == 0)
 		return;
@@ -78,21 +69,18 @@ void MinHeap<T>::heapUp(const int& index)
 		heapUp(parentIndex);
 	}
 }
-
-//Inspect .size() change
-template <typename T>
-void MinHeap<T>::heapify()
+void MinHeap::heapify()
 {
-	for (int index = heapVector.size() - 1; index >= 0; --index)
+	std::size_t size = heapVector.size();
+	for (std::size_t index = size - 1; index >= 0; --index)
 	{
 		heapDown(index);
 	}
 }
 
-template <typename T>
-void MinHeap<T>::swap(T& lhs, T& rhs)
+void MinHeap::swap(Node& lhs, Node& rhs)
 {
-	int tmp = lhs;
+	Node tmp = lhs;
 	lhs = rhs;
 	rhs = tmp;
 }
