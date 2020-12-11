@@ -8,8 +8,7 @@
 
 class Huffman
 {
-public:
-	
+public:	
 	static void fillTableWithCharacters(std::string& source)
 	{
 		// Counting each occuring character
