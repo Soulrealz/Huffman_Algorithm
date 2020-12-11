@@ -6,8 +6,6 @@ struct Pair
 	char symbol;
 	int numberOfOccurances;
 
-
-
 	Pair(char _symbol = '!', int _number = -1) : symbol(_symbol), numberOfOccurances(_number) {}
 	Pair(const Pair& other) : symbol(other.symbol), numberOfOccurances(other.numberOfOccurances) {}
 
@@ -22,9 +20,14 @@ struct Pair
 		return *this;
 	}
 
-	friend std::ostream& operator<<(std::ostream& out, const Pair element)
+	friend std::ostream& operator<<(std::ostream& out, const Pair& element)
 	{
-		out << element.symbol << " " << element.numberOfOccurances;
+		out << element.symbol << " " << element.numberOfOccurances << "\n";
 		return out;
+	}
+
+	bool operator>(const Pair& other)
+	{
+		return numberOfOccurances > other.numberOfOccurances;
 	}
 };
