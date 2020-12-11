@@ -19,6 +19,11 @@ public:
 		// Removing each character with an appearance time equaling 0
 		table.removeZeroes();
 	}
+
+	static void print()
+	{
+		table.print();
+	}
 private:
 	 static Table table;
 
@@ -65,6 +70,7 @@ int main(int argc, char* argv[])
 		break;
 	}
 	
+	Huffman::print();
 
 	return 0;
 }

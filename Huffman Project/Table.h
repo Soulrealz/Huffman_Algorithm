@@ -14,6 +14,8 @@ public:
 
 	void fillTable();
 	void removeZeroes();
+
+	void print() const;
 private:
 	std::vector<Pair> container;
 	// Supporting only standard ASCII

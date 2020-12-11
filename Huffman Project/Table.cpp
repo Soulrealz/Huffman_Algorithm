@@ -47,3 +47,12 @@ void Table::removeZeroes()
 
 	container = tmp;
 }
+
+void Table::print() const
+{
+	std::size_t size = container.size();
+	for (std::size_t i = 0; i < size; i++)
+	{
+		std::cout << container[i].symbol << " " << container[i].numberOfOccurances << "\n";
+	}
+}
