@@ -2,6 +2,7 @@
 #include "Pair.h"
 #include <vector>
 #include <string>
+#include <algorithm>
 
 class Table
 {
@@ -16,6 +17,7 @@ public:
 	void removeZeroes();
 
 	void print() const;
+	void sort();
 private:
 	std::vector<Pair> container;
 	// Supporting only standard ASCII

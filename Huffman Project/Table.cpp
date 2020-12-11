@@ -56,3 +56,8 @@ void Table::print() const
 		std::cout << container[i].symbol << " " << container[i].numberOfOccurances << "\n";
 	}
 }
+
+void Table::sort()
+{	
+	std::sort(container.begin(), container.end(), [](Pair a, Pair b) { return a.numberOfOccurances < b.numberOfOccurances; });
+}

@@ -22,6 +22,7 @@ public:
 
 	static void print()
 	{
+		table.sort();
 		table.print();
 	}
 private:
