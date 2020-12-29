@@ -1,20 +1,21 @@
 #pragma once
 #include <iostream>
 
+// Struct to track each symbol and its occurances
 struct Pair
 {
 	char symbol;
-	int numberOfOccurances;
+	int occuranceCount;
 
-	Pair(char _symbol = '!', int _number = -1) : symbol(_symbol), numberOfOccurances(_number) {}
-	Pair(const Pair& other) : symbol(other.symbol), numberOfOccurances(other.numberOfOccurances) {}
+	Pair(char _symbol = '^', int _number = -1) : symbol(_symbol), occuranceCount(_number) {}
+	Pair(const Pair& other) : symbol(other.symbol), occuranceCount(other.occuranceCount) {}
 
 	Pair& operator=(const Pair& other) 
 	{
 		if (this != &other)
 		{
 			symbol = other.symbol;
-			numberOfOccurances = other.numberOfOccurances;
+			occuranceCount = other.occuranceCount;
 		}
 
 		return *this;
@@ -22,9 +23,7 @@ struct Pair
 
 	friend std::ostream& operator<<(std::ostream& out, const Pair& element)
 	{
-		out << element.symbol << " " << element.numberOfOccurances << "\n";
+		out << element.symbol << " " << element.occuranceCount << "\n";
 		return out;
 	}
-
-	bool operator>(const Pair& other) { return numberOfOccurances > other.numberOfOccurances; }
 };

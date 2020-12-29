@@ -24,7 +24,7 @@ void Table::removeZeroes()
 	std::size_t size = container.size();
 	for (std::size_t index = 0; index < size; ++index)
 	{
-		if (container[index].numberOfOccurances != 0)
+		if (container[index].occuranceCount != 0)
 		{
 			counter++;
 		}
@@ -34,7 +34,7 @@ void Table::removeZeroes()
 	counter = 0;
 	for (std::size_t index = 0; index < size; ++index)
 	{
-		if (container[index].numberOfOccurances != 0)
+		if (container[index].occuranceCount != 0)
 		{
 			tmp[counter++] = container[index];
 		}
@@ -54,5 +54,5 @@ void Table::print() const
 
 void Table::sort()
 {	
-	std::sort(container.begin(), container.end(), [](Pair a, Pair b) { return a.numberOfOccurances < b.numberOfOccurances; });
+	std::sort(container.begin(), container.end(), [](Pair a, Pair b) { return a.occuranceCount < b.occuranceCount; });
 }
