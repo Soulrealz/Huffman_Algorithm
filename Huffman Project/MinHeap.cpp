@@ -15,7 +15,6 @@ void MinHeap::pop()
 
 	heapVector[0] = heapVector[heapVector.size() - 1];
 	heapVector.pop_back();
-	heapDown(0);
 }
 void MinHeap::push(const Node& element)
 {
@@ -33,27 +32,22 @@ void MinHeap::print() const
 	}
 }
 
-void MinHeap::heapDown(const std::size_t& index)
+void MinHeap::heapify(std::size_t size, const std::size_t& index)
 {
-	std::size_t size = heapVector.size();
-	std::size_t leftChild = 2 * index + 1;
-	std::size_t rightChild = 2 * index + 2;
+	std::size_t maxIndex = index;
+	std::size_t left = 2 * index + 1;
+	std::size_t right = 2 * index + 2;
 
-	//when element is leaf
-	if (leftChild >= size)
-		return;
+	if ((left < size) && (heapVector[left] > heapVector[maxIndex]))
+		maxIndex = left;
 
-	std::size_t minIndex = index;
-	if (compare(heapVector[minIndex], heapVector[leftChild]))
-		minIndex = leftChild;
+	if ((right < size) && (heapVector[right] > heapVector[maxIndex]))
+		maxIndex = right;
 
-	if ((rightChild < size) && compare(heapVector[minIndex], heapVector[rightChild]))
-		minIndex = rightChild;
-
-	if (minIndex != index)
+	if (maxIndex != index)
 	{
-		swap(heapVector[minIndex], heapVector[index]);
-		heapDown(minIndex);
+		swap(heapVector[maxIndex], heapVector[index]);
+		heapify(size, maxIndex);
 	}
 }
 void MinHeap::heapUp(const std::size_t& index)
@@ -63,18 +57,31 @@ void MinHeap::heapUp(const std::size_t& index)
 
 	std::size_t parentIndex = (index - 1) / 2;
 
-	if (compare(heapVector[parentIndex], heapVector[index]))
+	if (heapVector[parentIndex] > heapVector[index])
 	{
 		swap(heapVector[parentIndex], heapVector[index]);
 		heapUp(parentIndex);
 	}
 }
-void MinHeap::heapify()
+void MinHeap::sort()
 {
 	std::size_t size = heapVector.size();
-	for (std::size_t index = size - 1; index >= 0; --index)
+	int sz = size;
+	if ((sz / 2) - 1 > 0)
 	{
-		heapDown(index);
+		for (std::size_t index = (size / 2) - 1; index > 0; --index)
+		{
+			heapify(size, index);
+		}
+	}
+
+	if (sz - 1 > 0)
+	{
+		for (std::size_t index = size - 1; index > 0; --index)
+		{
+			swap(heapVector[0], heapVector[index]);
+			heapify(index, 0);
+		}
 	}
 }
 
