@@ -22,5 +22,5 @@ public:
 private:
 	std::vector<Pair> container;
 	// Supporting only standard ASCII
-	const std::size_t ASCII = 127;
+	const std::size_t ASCII = 256;
 };
