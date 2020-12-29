@@ -1,12 +1,12 @@
 #include "HuffmanCompression.h"
 
-void Compression::fillTableWithCharacters(std::string & source)
+void Compression::fillTableWithCharacters(std::string& source)
 {
 	// Counting each occuring character
 	std::size_t size = source.length();
 	for (std::size_t index = 0; index < size; ++index)
 	{
-		table[(int)source[index]].numberOfOccurances++;
+		table[(int)source[index]].occuranceCount++;
 	}
 }
 
@@ -27,22 +27,25 @@ void Compression::fillHeap()
 	}
 }
 
-Node Compression::unifyHeap()
+Node& Compression::buildTree()
 {
-	Node root;
+	Node* root;
 	while (heap.getSize() != 1)
 	{
-		Node first = heap.top();
-		heap.pop();
-		Node second = heap.top();
-		heap.pop();
+		// Take two smallest elements and combine their occurance count
+		Node* first = new Node(heap[0]);
+		Node* second = new Node(heap[1]);
 
-		Node newEl = Node(Pair('!', first.data.numberOfOccurances + second.data.numberOfOccurances), &first, &second);
-		heap.push(newEl);
+		heap.pop();
+		heap.sort();		
+		heap.pop();
+		heap.sort();
+
+		Node* newEl = new Node(Pair('^', first->data.occuranceCount + second->data.occuranceCount), first, second);
+		heap.push(*newEl);
 	}
-	
-	root = heap.top();
-	heap.pop();
 
-	return root;
+	root = &heap[0];
+
+	return *root;
 }
