@@ -1,5 +1,8 @@
 #include "HuffmanCompression.h"
 
+Table Compression::table;
+MinHeap Compression::heap;
+HuffmanTree* Compression::tree;
 
 int main(int argc, char* argv[])
 {
@@ -36,13 +39,22 @@ int main(int argc, char* argv[])
 	default: std::cout << "Exiting...";
 		break;
 	}
-		
+	
+	// Demonstrate proper element arrangement
 	Compression::arrangeElements();
 	Compression::printTable();
 	std::cout << "\n\n\n";
+	// Demonstrate proper heap filling
 	Compression::fillHeap();
 	Compression::printHeap();
-
+	std::cout << "\n\n\n";
+	// Demonstrate proper tree construction
+	Compression::constructTree();
+	Compression::printTree();
+	std::cout << "\n\n\n";
+	// Demonstrate proper Compression
+	Compression::compressTree();
+	Compression::printCompressedTable();
 	return 0;
 }
 
