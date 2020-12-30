@@ -2,7 +2,7 @@
 // direct includes :
 // Table.h = Pair.h, string, vector, algorithm
 // MinHeap.h = vector, Node.h
-// HuffmanTree.h = Node.h
+// HuffmanTree.h = Node.h, unordered_map, string
 
 // indirect includes
 // Pair.h = iostream
@@ -29,6 +29,11 @@ public:
 	// Functions to construct HuffmanTree and compress text
 	static void constructTree() { tree = new HuffmanTree(&buildTree()); }
 	static void compressTree() { tree->encode(); }
+
+	// put entire compression in one string
+	static std::string binaryText(std::string& source);
+	// save tree information for future decompression and return size required to save tree
+	static std::size_t decompressInformation() { return tree->saveTreeInformation(); }
 
 	// Utility Functions to demonstrate progress
 	static void printTable() { table.print(); }

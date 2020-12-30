@@ -9,7 +9,6 @@ void Compression::fillTableWithCharacters(std::string& source)
 		table[(int)source[index]].occuranceCount++;
 	}
 }
-
 void Compression::arrangeElements()
 {
 	// Removing each character with an appearance time equaling 0
@@ -17,7 +16,6 @@ void Compression::arrangeElements()
 	// Sort by number of occurances
 	table.sort();
 }
-
 void Compression::fillHeap()
 {
 	std::size_t size = table.size();
@@ -26,7 +24,19 @@ void Compression::fillHeap()
 		heap.push(Node(table[i], nullptr, nullptr));
 	}
 }
+std::string Compression::binaryText(std::string & source)
+{
+	std::unordered_map<char, std::string> map = tree->getMap();
+	std::string binary = "";
+	std::size_t size = source.size();
 
+	for (std::size_t i = 0; i < size; ++i)
+	{
+		binary += map[source[i]];
+	}
+
+	return binary;
+}
 Node& Compression::buildTree()
 {
 	Node* root;
