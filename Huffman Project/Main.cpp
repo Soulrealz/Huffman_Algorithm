@@ -1,57 +1,61 @@
 #include <fstream>
 #include "HuffmanCompression.h"
-Table Compression::table;
-MinHeap Compression::heap;
-HuffmanTree* Compression::tree;
 
-void readFile(char* argv[], std::string& str)
+struct FileManagement
 {
-	std::ifstream infile(argv[1], std::ios::in | std::ios::beg | std::ios::ate);
-	if (!infile)
-		throw std::invalid_argument("Cannot open file");
-	std::size_t size = infile.tellg();
-
-	char* chars = new char[size + 1];
-
-	infile.seekg(0, std::ios::beg);
-	infile.read(chars, size);
-	chars[size] = '\0';
-
-	str.append(chars);
-	std::cout << "Your input is:\n" << str << "\n";
-	Compression::fillTableWithCharacters(str);
-	delete[] chars;
-}
-std::string fileName()
-{
-	std::string filename = "";
-	std::getline(std::cin, filename);
-	return filename;
-}
-bool setFile(std::string& filename, std::string condition)
-{
-	// should be +1 but we do -3 to offset "-i "
-	// so 1 - 3 => -2
-	char* chars = new char[filename.size() - 2];
-	if (filename != "\n" && filename.size() > 3 && filename.substr(0, 3) == condition)
+	static void readFile(char* argv[], std::string& str, const char* filename)
 	{
-		// macros inserted to turn off strncpy warnings
-		//_CRT_SECURE_NO_DEPRECATE 
-		//_CRT_NONSTDC_NO_DEPRECATE
-		filename = filename.substr(3, filename.size());
+		std::ifstream infile(filename, std::ios::in | std::ios::beg | std::ios::ate);
+		if (!infile)
+			throw std::invalid_argument("Cannot open file");
+		std::size_t size = infile.tellg();
 
-		strncpy(chars, filename.c_str(), filename.size());
-		chars[filename.size()] = '\0';
+		char* chars = new char[size + 1];
 
-		filename = chars;
-		return true;
+		infile.seekg(0, std::ios::beg);
+		infile.read(chars, size);
+		chars[size] = '\0';
+
+		str.clear();
+		str.append(chars);
+		std::cout << "Your input is:\n" << str << "\n";
+		delete[] chars;
 	}
-	delete[] chars;
-	return false;
-}
+	static bool setFile(std::string& filename, std::string condition)
+	{
+		// should be +1 but we do -3 to offset "-i "
+		// so 1 - 3 => -2
+		char* chars = new char[filename.size() - 2];
+		if (filename != "\n" && filename.size() > 3 && filename.substr(0, 3) == condition)
+		{
+			// macros inserted to turn off strncpy warnings
+			//_CRT_SECURE_NO_DEPRECATE 
+			//_CRT_NONSTDC_NO_DEPRECATE
+			filename = filename.substr(3, filename.size());
+
+			strncpy(chars, filename.c_str(), filename.size());
+			chars[filename.size()] = '\0';
+
+			filename = chars;
+			return true;
+		}
+		delete[] chars;
+		return false;
+	}
+	static std::string fileName()
+	{
+		std::string filename = "";
+		std::getline(std::cin, filename);
+		return filename;
+	}
+};
+
 
 void compression(char* argv[], std::string& str)
 {
+	// Fill Table
+	Compression::fillTableWithCharacters(str);
+
 	// Demonstrate proper element arrangement
 	Compression::arrangeElements();
 	//Compression::printTable();
@@ -90,7 +94,7 @@ char mainLoop()
 		std::cout << "Choose program:\n";
 		std::cout << "1 - Insert text from console\n";
 		std::cout << "2/c - Input text from file\n";
-		//std::cout << "3/d - Decode from file with encoded data and saved tree\n";
+		std::cout << "3/d - Decode from file with encoded data and saved tree\n";
 		std::cout << "4 - Exit\n";
 
 		std::cout << "\nEnter option: ";
@@ -100,62 +104,35 @@ char mainLoop()
 	return symbol;
 }
 
-int main(int argc, char* argv[])
-{
-	std::cout << "\n\n";
+void caseOne(char* argv[], std::string& str);
+void caseTwo(char* argv[], std::string& str);
+void caseThree(char* argv[], std::string& str);
 
+Table Compression::table;
+TreeVector Compression::heap;
+HuffmanTree* Compression::tree = new HuffmanTree();
+int main(int argc, char* argv[])
+{	
 	std::string str = "";
 	switch (mainLoop())
 	{
 	case '1':
 	{		
-		std::cout << "Enter text to compress: ";
-		std::cin.ignore();
-		std::getline(std::cin, str);
-
-		Compression::fillTableWithCharacters(str);
-		compression(argv, str);
+		caseOne(argv, str);
 	}
 	break;
 	case '2':
 	case 'c':
 	{
-		std::cout << "-i <name_of_input_file>, press Enter if you want to use default Input.txt\n";
-		std::cin.ignore();
-		std::string inputFileName = fileName();
-		std::cout << "-o <name_of_output_file, press Enter if you want to use default Output.txt\n";
-		std::string outputFileName = fileName();
-
-		char* chars = nullptr;
-		try
-		{			
-			if (setFile(inputFileName, std::string("-i "))) 
-			{
-				chars = new char[inputFileName.size()];
-				argv[1] = chars;
-			}
-			readFile(argv, str);
-			delete[] chars;
-
-			chars = nullptr;
-			if (setFile(outputFileName, std::string("-o ")))
-			{
-				chars = new char[outputFileName.size()];
-				argv[2] = chars;
-			}
-		}
-		catch (...)
-		{
-			readFile(argv, str);
-		}
-
-		compression(argv, str);
-		delete[] chars;
+		caseTwo(argv, str);
 	}
 	break;
 	case '3':
 	case 'd':
-		break;
+	{
+		caseThree(argv, str);
+	}
+	break;
 	default: std::cout << "Exiting...";
 		break;
 	}
@@ -164,5 +141,62 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+void caseOne(char* argv[], std::string& str)
+{
+	{
+		std::cout << "Enter text to compress: ";
+		std::cin.ignore();
+		std::getline(std::cin, str);
 
+		Compression::fillTableWithCharacters(str);
+		compression(argv, str);
+	}
+}
+void caseTwo(char* argv[], std::string& str)
+{
+	std::cout << "-i <name_of_input_file>, press Enter if you want to use default Input.txt\n";
+	std::cin.ignore();
+	std::string inputFileName = FileManagement::fileName();
+	std::cout << "-o <name_of_output_file, press Enter if you want to use default Output.txt\n";
+	std::string outputFileName = FileManagement::fileName();
 
+	char* chars = nullptr;
+	try
+	{
+		if (FileManagement::setFile(inputFileName, std::string("-i ")))
+		{
+			chars = new char[inputFileName.size()];
+			argv[1] = chars;
+		}
+		FileManagement::readFile(argv, str, argv[1]);
+		delete[] chars;
+
+		chars = nullptr;
+		if (FileManagement::setFile(outputFileName, std::string("-o ")))
+		{
+			chars = new char[outputFileName.size()];
+			argv[2] = chars;
+		}
+	}
+	catch (...)
+	{
+		FileManagement::readFile(argv, str, argv[1]);
+	}
+
+	compression(argv, str);
+	delete[] chars;
+}
+void caseThree(char* argv[], std::string& str)
+{
+	std::cout << "Reading compressed version from TreeInformation.txt\n";
+	FileManagement::readFile(argv, str, argv[3]);
+	Compression::decompressTree(str);
+
+	std::cout << "\nReading compressed version from Compressed.txt\n";
+	FileManagement::readFile(argv, str, argv[4]);
+	std::string recreatedText = Compression::decipherTree(str);
+
+	std::cout << "\nOriginal Text:\n" << recreatedText;
+	std::ofstream original("Original.txt", std::ios::out, std::ios::trunc);
+	original << recreatedText;
+}
