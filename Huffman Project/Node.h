@@ -8,6 +8,7 @@ struct Node
 	Node* rightNode;
 
 	Node() : data(Pair()), leftNode(nullptr), rightNode(nullptr) {}
+	Node(const char symbol) : data(Pair(symbol)), leftNode(nullptr), rightNode(nullptr) {}
 	Node(const Pair& _data, Node* left, Node* right) : data(_data), leftNode(left), rightNode(right) {}
 	Node(const Node& other) : data(other.data), leftNode(other.leftNode), rightNode(other.rightNode) {}
 
