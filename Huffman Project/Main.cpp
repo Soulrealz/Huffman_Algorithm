@@ -62,7 +62,7 @@ void compression(char* argv[], std::string& str)
 	//std::cout << "\n\n\n";
 
 	// Demonstrate proper heap filling
-	Compression::fillHeap();
+	Compression::fillTreeVector();
 	//Compression::printHeap();
 	//std::cout << "\n\n\n";
 

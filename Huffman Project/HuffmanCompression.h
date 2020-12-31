@@ -23,8 +23,8 @@ public:
 	static void fillTableWithCharacters(std::string& source);
 	static void arrangeElements();
 
-	// Function to fill heap
-	static void fillHeap();
+	// Function to fill tree
+	static void fillTreeVector();
 
 	// Functions to construct HuffmanTree and compress text
 	static void constructTree();
