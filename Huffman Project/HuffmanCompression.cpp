@@ -16,6 +16,7 @@ void Compression::arrangeElements()
 	// Sort by number of occurances
 	table.sort();
 }
+
 void Compression::fillHeap()
 {
 	std::size_t size = table.size();
@@ -24,18 +25,11 @@ void Compression::fillHeap()
 		heap.push(Node(table[i], nullptr, nullptr));
 	}
 }
-std::string Compression::binaryText(std::string & source)
+void Compression::constructTree()
 {
-	std::unordered_map<char, std::string> map = tree->getMap();
-	std::string binary = "";
-	std::size_t size = source.size();
-
-	for (std::size_t i = 0; i < size; ++i)
-	{
-		binary += map[source[i]];
-	}
-
-	return binary;
+	if (tree)
+		delete tree;
+	tree = new HuffmanTree(&buildTree());
 }
 Node& Compression::buildTree()
 {
@@ -58,4 +52,48 @@ Node& Compression::buildTree()
 	root = &heap[0];
 
 	return *root;
+}
+
+std::string Compression::binaryText(std::string & source)
+{
+	std::unordered_map<char, std::string> map = tree->getMap();
+	std::string binary = "";
+	std::size_t size = source.size();
+
+	for (std::size_t i = 0; i < size; ++i)
+	{
+		binary += map[source[i]];
+	}
+
+	return binary;
+}
+
+void Compression::decompressTree(std::string& treeString)
+{
+	std::size_t index = 0;
+	std::size_t size = treeString.size();
+	std::deque<char> path;
+
+	while (index < size)
+	{
+		if (treeString[index] == '(')
+		{
+			path.push_back('l');
+		}
+		else if (treeString[index] == ',')
+		{
+			path.pop_back();
+			path.push_back('r');
+		}
+		else if (treeString[index] == ')')
+		{
+			path.pop_back();
+		}
+		else
+		{
+			tree->buildTree(path, treeString[index]);
+		}
+
+		++index;
+	}
 }
