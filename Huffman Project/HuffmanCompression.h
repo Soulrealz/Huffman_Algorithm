@@ -1,14 +1,14 @@
 #pragma once
 // direct includes :
 // Table.h = Pair.h, string, vector, algorithm
-// MinHeap.h = vector, Node.h
+// TreeVector.h = vector, Node.h
 // HuffmanTree.h = Node.h, unordered_map, string, queue
 
 // indirect includes
 // Pair.h = iostream
 // Node.h = Pair.h
 #include "Table.h"
-#include "MinHeap.h"
+#include "TreeVector.h"
 #include "HuffmanTree.h"
 
 class Compression
@@ -47,7 +47,7 @@ public:
 	static void printCompressedTable() { tree->printCodeTable(); }
 private:
 	static Table table;
-	static MinHeap heap;
+	static TreeVector heap;
 	static HuffmanTree* tree;
 
 	Compression() = default;

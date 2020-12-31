@@ -47,6 +47,7 @@ Node& Compression::buildTree()
 
 		Node* newEl = new Node(Pair('^', first->data.occuranceCount + second->data.occuranceCount), first, second);
 		heap.push(*newEl);
+		heap.sort();
 	}
 
 	root = &heap[0];

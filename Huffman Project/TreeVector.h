@@ -1,14 +1,14 @@
 #pragma once
 #include <vector>
+#include <algorithm>
 #include "Node.h"
 
-class MinHeap
+class TreeVector
 {
 public:
-	MinHeap() = default;
-	MinHeap(const std::vector<Node>& other) : heapVector(other) { sort(); }
+	TreeVector() = default;
+	TreeVector(const std::vector<Node>& other) : heapVector(other) { sort(); }
 
-	Node top() const;
 	void pop();
 	void push(const Node& element);
 
@@ -19,9 +19,4 @@ public:
 	void sort();
 private:
 	std::vector<Node> heapVector;
-
-	void heapify(std::size_t size, const std::size_t& index);
-	void heapUp(const std::size_t& index);
-
-	void swap(Node& lhs, Node& rhs);
 };
