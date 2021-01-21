@@ -17,7 +17,7 @@ void Compression::arrangeElements()
 	table.sort();
 }
 
-void Compression::fillHeap()
+void Compression::fillTreeVector()
 {
 	std::size_t size = table.size();
 	for (std::size_t i = 0; i < size; i++)
@@ -36,12 +36,15 @@ Node& Compression::buildTree()
 	Node* root;
 	while (heap.getSize() != 1)
 	{
+		//std::cout << "\n\n";
+		//heap.print();
+		//std::cout << "\n\n";
 		// Take two smallest elements and combine their occurance count
 		Node* first = new Node(heap[0]);
-		Node* second = new Node(heap[1]);
+		Node* second = new Node(heap[1]);	
 
 		heap.pop();
-		heap.sort();		
+		heap.sort();
 		heap.pop();
 		heap.sort();
 
@@ -55,7 +58,7 @@ Node& Compression::buildTree()
 	return *root;
 }
 
-std::string Compression::binaryText(std::string & source)
+std::string Compression::binaryText(std::string& source)
 {
 	std::unordered_map<char, std::string> map = tree->getMap();
 	std::string binary = "";

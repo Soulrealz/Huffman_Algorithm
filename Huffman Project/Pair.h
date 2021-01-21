@@ -7,7 +7,7 @@ struct Pair
 	char symbol;
 	unsigned int occuranceCount;
 
-	Pair(char _symbol = '^', unsigned int _number = -1) : symbol(_symbol), occuranceCount(_number) {}
+	Pair(char _symbol = '^', unsigned int _number = 0) : symbol(_symbol), occuranceCount(_number) {}
 	Pair(const Pair& other) : symbol(other.symbol), occuranceCount(other.occuranceCount) {}
 
 	Pair& operator=(const Pair& other) 
